@@ -1,10 +1,22 @@
-default {}
-{
-include => apache
-}
+node 'project.puppetagent*.com' {  
+  class { 'apache':    
+    default_mods => false, 
+  }  
 
-apache::vhost { 'webserver.puppetlabs.com':  
-  port     => '443',  
-  docroot  => '/var/www/webserver',  
-  ssl      => true,  
+  include apache::mod::ssl  
+
+  apache::vhost { 'project.puppetagent*.com-http':    
+    servername      => 'project.puppetagent*.com',    
+    port            => '80',    
+    docroot         => '/var/www/webserver',    
+    redirect_status => 'permanent',    
+    redirect_dest   => 'https://project.puppetagent*.com/',  
+  }  
+
+  apache::vhost { 'project.puppetagent*.com-https':    
+    servername      => 'project.puppetagent*.com',    
+    port            => '443',    
+    docroot         => '/var/www/webserver',    
+    ssl             => true,    
   }
+}
