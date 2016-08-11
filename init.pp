@@ -18,7 +18,7 @@ ec2_securitygroup { 'projectsg':
   }]
 }
 
-ec2_vpc_subnet { 'peojectsubnet':
+ec2_vpc_subnet { 'projectsubnet':
   ensure            => present,
   region            => 'us-east-1',
   vpc               => 'projectvpc',
@@ -56,6 +56,7 @@ ec2_instance { 'projectinstance1':
   instance_type     => 't2.micro',
   monitoring        => true,
   security_groups   => 'projectsg',
+  user_data         => template('apachebootstrapscript.sh'),
 }
 ec2_instance { 'projectinstance2':
   ensure            => present,
@@ -66,6 +67,7 @@ ec2_instance { 'projectinstance2':
   instance_type     => 't2.micro',
   monitoring        => true,
   security_groups   => 'projectsg',
+  user_data         => template('apachebootstrapscript.sh'),
 }
 elb_loadbalancer { 'projectloadbalancer':
   ensure               => present,
