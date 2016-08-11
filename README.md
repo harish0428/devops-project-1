@@ -17,3 +17,4 @@ User data is passed through script named apachebootstrapscript.sh.
 To validate server configurations, I am using puppet. Puppet agents would send in facts from facter which is checked every 30 minutes by default to help maintain the said server configurations. 
 
 
+
