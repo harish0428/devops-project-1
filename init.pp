@@ -107,17 +107,17 @@ ec2_autoscalinggroup { 'projectasg':
 ec2_scalingpolicy { 'scaleout':
   ensure             => present,
   auto_scaling_group => 'projectasg',
-  scaling_adjustment =>30,
-  adjustment_type    => 'PercentChangeInCapacity',
-  region             => 'sa-east-1',
+  scaling_adjustment => +1,
+  adjustment_type    => 'ChangeInCapacity',
+  region             => 'us-east-1',
 }
 
 ec2_scalingpolicy { 'scalein':
   ensure             => present,
-  auto_scaling_group => 'test-asg',
-  scaling_adjustment => -2,
+  auto_scaling_group => 'projectasg',
+  scaling_adjustment => -1,
   adjustment_type    => 'ChangeInCapacity',
-  region             => 'sa-east-1',
+  region             => 'us-east-1',
 }
 
 cloudwatch_alarm { 'AddCapacity':
@@ -129,11 +129,11 @@ cloudwatch_alarm { 'AddCapacity':
   threshold           => 70,
   comparison_operator => 'GreaterThanOrEqualToThreshold',
   dimensions          => [{
-    'AutoScalingGroupName' => 'test-asg',
+    'AutoScalingGroupName' => 'projectasg',
   }],
   evaluation_periods  => 2,
-  alarm_actions       => ['scaleout'],
-  region              => 'sa-east-1',
+  alarm_actions       => 'scaleout',
+  region              => 'us-east-1',
 }
 
 cloudwatch_alarm { 'RemoveCapacity':
@@ -145,10 +145,10 @@ cloudwatch_alarm { 'RemoveCapacity':
   threshold           => 40,
   comparison_operator => 'LessThanOrEqualToThreshold',
   dimensions          => [{
-    'AutoScalingGroupName' => 'test-asg',
+    'AutoScalingGroupName' => 'projectasg',
   }],
   evaluation_periods  => 2,
-  region              => 'sa-east-1',
-  alarm_actions       => ['scalein'],
+  region              => 'us-east-1',
+  alarm_actions       => 'scalein',
 }
 
