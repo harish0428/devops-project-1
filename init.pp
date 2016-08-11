@@ -10,12 +10,23 @@ ec2_securitygroup { 'projectsg':
   vpc         => 'projectvpc',
   description => 'Security group for VPC',
   ingress     => [{
-    security_group => 'sample-sg',
+    security_group => 'projectsg',
   },{
     protocol => 'tcp',
     port     => 22,
     cidr     => '0.0.0.0/0'
-  }]
+  }
+  {
+    protocol => 'https',
+    port     => 443,
+    cidr     => '0.0.0.0/0'
+  }
+  {
+    protocol => 'http',
+    port     => 80,
+    cidr     => '0.0.0.0/0'
+  }
+  ]
 }
 
 ec2_vpc_subnet { 'projectsubnet':
@@ -56,7 +67,7 @@ ec2_instance { 'projectinstance1':
   instance_type     => 't2.micro',
   monitoring        => true,
   security_groups   => 'projectsg',
-  user_data         => template('apachebootstrapscript.sh'),
+  user_data         => template('apache-puppetbootstrapscript.sh'),
 }
 ec2_instance { 'projectinstance2':
   ensure            => present,
@@ -67,7 +78,7 @@ ec2_instance { 'projectinstance2':
   instance_type     => 't2.micro',
   monitoring        => true,
   security_groups   => 'projectsg',
-  user_data         => template('apachebootstrapscript.sh'),
+  user_data         => template('apache-puppetbootstrapscript.sh'),
 }
 elb_loadbalancer { 'projectloadbalancer':
   ensure               => present,
