@@ -151,4 +151,4 @@ cloudwatch_alarm { 'RemoveCapacity':
   region              => 'us-east-1',
   alarm_actions       => 'scalein',
 }
-
+ 
