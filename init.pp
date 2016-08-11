@@ -95,19 +95,19 @@ ec2_launchconfiguration { 'projectconfig':
   instance_type   => 't2.micro',
 }
 
-ec2_autoscalinggroup { 'test-asg':
+ec2_autoscalinggroup { 'projectasg':
   ensure               => present,
   min_size             => 2,
-  max_size             => 4,
-  region               => 'sa-east-1',
-  launch_configuration => 'test-lc',
-  availability_zones   => ['sa-east-1b', 'sa-east-1a'],
+  max_size             => 2,
+  region               => 'us-east-1',
+  launch_configuration => 'projectconfig',
+  availability_zones   => ['us-east-1a', 'us-east-1b'],
 }
 
 ec2_scalingpolicy { 'scaleout':
   ensure             => present,
-  auto_scaling_group => 'test-asg',
-  scaling_adjustment => 30,
+  auto_scaling_group => 'projectasg',
+  scaling_adjustment =>30,
   adjustment_type    => 'PercentChangeInCapacity',
   region             => 'sa-east-1',
 }
