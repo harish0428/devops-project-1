@@ -15,3 +15,4 @@ echo "project.puppetagent1.com" > /etc/hostname
 echo "master-ip-address project.puppetmaster.com" > /etc/hosts
 echo "server=project.puppetmaster.com" > /etc/puppet/puppet.conf
 
+
